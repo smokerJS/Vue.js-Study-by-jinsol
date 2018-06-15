@@ -16,7 +16,7 @@
 <body>
     <div id="account">
         예금액 <input type="text" v-model="amount">
-        <img src="imgs/err.jpg" v-if="amount<0" v-else-if="isNaN(amount)" title="올바른 금액을 입력해주세요.">
+        <img src="imgs/err.jpg" v-if="amount<0"title="올바른 금액을 입력해주세요.">
         <img src="imgs/err.jpg" v-else-if="isNaN(amount)" title="올바른 금액을 입력해주세요.">
         <!-- <img src="imgs/err.jpg" v-if="amount<0||isNaN(amount)" title="올바른 금액을 입력해주세요."> -->
         <!-- <img src="imgs/err.jpg" v-show="amount<0||isNaN(amount)" title="올바른 금액을 입력해주세요."> -->

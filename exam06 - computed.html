@@ -10,22 +10,26 @@
 <body>
     <div id="app">
         <input type="text" v-model.number="inputText">  <!-- .number 을 사용하면 자동으로 parseInt 가 된다. -->
-        <spn>{{sum}}</spn>
+        {{inputText}} * 2 = <span>{{comSum}}</span>
     </div>
     <script>
         var model = {
-            inputText = ""
+            inputText : "0"
         }
         new Vue({
             el : "#app",
             data : model,
             computed:{
-                sum: function(){
+                comSum: function(){    // 여기서 this 는 Vue 인스턴스를 말한다.
                     if(isNaN(this.inputText))return "숫자를 입력해주세요";
-                    return parseInt(this.inputText)*2;
+                    return this.inputText*2;
                 }
             }
         })
+        /*
+            computed 는 정해진 값으로
+            미리 함수를 정의하여 속성처럼 사용이 가능하다.
+        */
     </script>
 </body>
 </html>
