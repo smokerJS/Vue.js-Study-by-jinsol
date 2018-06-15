@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <title>Document</title>
+    <style>
+        img{
+            width:50px;
+            height:50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="account">
+        예금액 <input type="text" v-model="amount">
+        <img src="imgs/err.jpg" v-if="amount<0" v-else-if="isNaN(amount)" title="올바른 금액을 입력해주세요.">
+        <img src="imgs/err.jpg" v-else-if="isNaN(amount)" title="올바른 금액을 입력해주세요.">
+        <!-- <img src="imgs/err.jpg" v-if="amount<0||isNaN(amount)" title="올바른 금액을 입력해주세요."> -->
+        <!-- <img src="imgs/err.jpg" v-show="amount<0||isNaN(amount)" title="올바른 금액을 입력해주세요."> -->
+    </div>
+    <!-- v-show 는 display none 개발자 도구에 그대로 남아있다. -->
+    <!-- v-if 는 조건에 맞으면 보여진다. -->
+    <script>
+        new Vue({
+            el:"#account",
+            data:{
+                amount:0
+            }
+        })
+    </script>
+</body>
+</html>

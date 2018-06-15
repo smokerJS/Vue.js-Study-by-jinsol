@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+    <div id="simple">
+        v-html : <span v-html="result"></span><br>
+        v-text : <sapn v-text="result"></sapn><br>
+        {{}} : <sapn>{{result}}</sapn><br>
+        {{}} , v-text 는 innerText효과<br>
+        v-html 은 innerHtml 효과를 가지고 있다.
+    </div>
+    <hr>
+    <div id="inputTest">
+        <input type="text" v-model="inputText">
+        <h1>{{inputText}}</h1>
+        <h2 v-html="inputText"></h2>
+    </div>
+        <script>
+        var model = {
+            result : "<h1>테스트</h1>",
+            inputText : ""
+        }
+
+        new Vue({
+            el:'#simple',
+            data:model
+        });
+        
+        new Vue({
+            el:"#inputTest",
+            data:model
+        });
+    </script>
+</body>
+</html>
