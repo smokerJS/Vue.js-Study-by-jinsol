@@ -12,6 +12,31 @@
         <input type="text" v-model.number="inputText">  <!-- .number 을 사용하면 자동으로 parseInt 가 된다. -->
         {{inputText}} * 2 = <span>{{comSum}}</span>
     </div>
+
+<br>
+<br>
+<hr>
+<br>
+<br>
+
+    <div id="info">
+        <input type="text" v-model="searchName" placeholder="이름을 입력해주세요"/>
+        <table>
+            <thead>
+                <tr>
+                    <th>이름</th><th>나이</th><th>지역</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="c of search">
+                    <td>{{c.name}}</td>
+                    <td>{{c.age}}</td>
+                    <td>{{c.addr}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
     <script>
         var model = {
             inputText : "0"
@@ -25,11 +50,30 @@
                     return this.inputText*2;
                 }
             }
-        })
+        });
         /*
             computed 는 정해진 값으로
             미리 함수를 정의하여 속성처럼 사용이 가능하다.
         */
+
+        // computed에 필터를 정의하여 원하는 값을 뽑는다.
+        var model2 = {"info" : [{name:"진솔",age:"25",addr:"서울"},
+                                {name:"둘리",age:"1242624",addr:"공룡나라"},
+                                {name:"책상",age:"1342",addr:"숲속나라"},
+                                {name:"화장실",age:"2624",addr:"비트캠프"}],
+                      "searchName" : ""};
+        new Vue({
+            el:info,
+            data : model2,
+            computed:{
+                search: function(){
+                        let name = this.searchName;
+                        if((name.length < 1)) return this.info;
+                        return this.info.filter((index)=>{return index.name == name})
+                }
+            }
+        })
+
     </script>
 </body>
 </html>

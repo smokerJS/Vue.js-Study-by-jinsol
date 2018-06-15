@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="test">
+        <button>콘솔창을 보여주세요!</button>
+    </div>
+
+    <din id="test2">
+        <button>콘솔창을 보여주세요!</button>
+    </din>
+
+    <script>
+        /*
+            data
+
+            data 옵션의 경우 주어진 모든 속성들은 Vue 인스턴스 내부에 직접 이용되지 않고
+            Vue 인스턴스와 Data 옵션에 주어진 객체 사이에 프록시를 두어 처리한다.
+            (프록시는 대리인이라는 뜻이다. 즉 사용자가 원하는 행동을 하기 전에 한 번 거쳐가는 단계를 뜻한다)
+
+            Data 옵션은 Vue 인스턴스가 관찰하는 데이터 객체를 의미하므로 변경 사항은 즉시 감지된다.
+
+        */
+        var model = { title : "진솔이가 배우는 Vue.js" }
+        var vm = new Vue({
+            el:"#test",
+            data: model
+        })
+
+        document.querySelector("#test>button").onclick = ()=>{
+            console.log("model.title : ",model.title);
+            console.log("vm.title : ",vm.title);
+            console.log("vm.$data.title : ",vm.$data.title);
+            /*
+                세가지 전부 동일한 검색이다.
+                data 앞의 $는 이름 출동을 피하기 위한것으로
+                **내장 옵션들은 모두 $식별자를 앞에 붙이고 있다.**
+            */
+        }
+
+//-----------------------------------------------------------------------------------------------------
+
+        /*
+            el
+
+            el 옵션은 Vue 인스턴스에 연결할 HTML DOM 요소를 지정한다.
+            주의할 점은 여러 개 요소에 지정할 수 없다.
+            또한 Vue 인스턴스가 html 요소와 연결되면 도중에 연결된 요소를 변경할 수 없다.
+
+            var temp = "#test"
+            new Vue({
+                el:temp
+            })
+            이후 temp 값 바꿔도 안된다는 뜻
+        */
+
+//-----------------------------------------------------------------------------------------------------
+
+        /*
+            computed
+
+            computed 옵션에서 지정한 값은 함수였지만 Vue 인스턴스는 프록시 처리하여 속성과 같이 취급할 수 있다.
+
+        */
+        
+        var vm2 = new Vue({
+            el:"#test2",
+            data: {num : 2},
+            computed: {
+                sum:function(){return this.num * 2}
+            }
+        })
+
+        document.querySelector("#test2>button").onclick = ()=>{
+            console.log("vm2.sum : ",vm2.sum);
+            console.log("vm2.$options.computed.sum : ",vm2.$options.computed.sum);
+            /*
+                위와 같이 사용할 수 있다.
+                이런 이유로 계산형 속성(Computed Property)라고 부른다.
+
+                계산형 속성은 읽기 전용처럼 보이지만 set 메서드를 지정하면 쓰기 작업도 가능하다.
+                getter / setter 같이
+
+
+            */
+        }
+
+
+//-----------------------------------------------------------------------------------------------------
+        
+
+
+    </script>
+</body>
+</html>
