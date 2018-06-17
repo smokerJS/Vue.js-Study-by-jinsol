@@ -1,0 +1,51 @@
+<!-- 클릭 이벤트 전파 중단 -->
+<a v-on:click.stop="doThis"></ap>
+
+<!-- submit 이벤트가 페이지를 다시 로드하지 않도록 한다. -->
+<form v-on:submit.prevent="onSubmit"><form>
+
+<!-- 수식어는 점으로 체이닝 가능하다.  -->
+<a v-on:click.stop.prevent="doThat"></a>
+
+<!-- 단순히 수식어만 사용하는 것도 가능하다. -->
+<form v-on:submit.prevent></form>
+
+<!-- 이벤트 리스너를 추가할 때 캡쳐 모드를 사용한다. -->
+<!-- 즉, 내부 엘리먼트를 대상으로 하는 이벤트가 해당 엘리먼트에서 처리되기 전에 여기서 처리 가능하다. -->
+<div v-on:click.capture="doThis">...</div>
+
+<!-- event.target이 엘리먼트 자체인 경우에만 트리거를 처리한다. -->
+<!-- 자식 엘리먼트에서는 안된다. -->
+<div @click.self="doThat"></div>
+
+<!-- 클릭 이벤트를 최대 한번만 트리거 되도록 한다. (2.1.4에 추가됨) -->
+<a @click.once="doThis"></a>
+
+<!-- 스크롤의 기본 이벤트를 취소할수 있다. (2.3.0이후 추가됨) -->
+<!-- 브라우저는 핸들러가 event.preventDefault()를 호출할지 알지 못하므로 프로세스가 완료된 후 스크롤 한다. -->
+<!-- .passive 는 이 이벤트가 기본 동작을 멈추지 않는다는 것을 브라우저에게 알릴 수 있다.  -->
+<!-- 결과적으로 특히 모바일 환경에서 성능향상에 도움이 된다. -->
+<div v-on:scroll.passive="onScroll">...</div>
+<!------------------------------------------------------------------------->
+
+
+<!-- 자주 사용하는 event key 를 바로 사용할 수도 있다. -->
+<input @keyup.13="submit">
+
+<!-- 보통 keycode를 모두 알수 없기 때문에 vue는 자주 사용하는 key의 alias를 제공한다. -->
+<!-- .enter .tab .delete .esc .space .up .down .left .right -->
+<input @keyup.enter="submit">
+imgs/keyCodeAS.png 참조
+
+<!-- 체이닝이 가능하기때문에 ctrl + c 등의 키입력도 감지가 가능하다. -->
+<input @keyup.ctrl+67="submit">
+
+
+<!-- 전역 config.keyCodes 객체를 통해 사용자 지정 키를 만들 수 있다. -->
+Vue.config.keyCodes.f1 = 112
+<input @keyup.f1="doThat">
+
+<!-- 마우스 버튼 수식어도 사용 가능하다. (2.2.0 에서 추가됨) -->
+<div @click.left="leftClick">..</div>
+<div @click.right="rigthClick">..</div>
+<div @click.middle="middleClick">..</div>

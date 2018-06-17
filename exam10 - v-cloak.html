@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <title>Document</title>
+    <style>
+        [v-cloak] { display: none;}
+    </style>
+</head>
+<body>
+    <div class="test1" v-cloak>
+        {{msg}}
+    </div>
+    <div class="test2">
+        {{msg}}
+    </div>
+    <script>
+        new Vue({
+            el:".test1",
+            data:{msg:"v-cloak 적용"}
+        })
+        new Vue({
+            el:".test2",
+            data:{msg:"v-cloak 미적용"}
+        })
+        /*
+            v-cloak 은 컴파일 되기전 {{}} 이 보이는 문제를 해결한다.
+            컴파일 이후 디스플레이에 노출된다.
+        */
+    </script>
+</body>
+</html>

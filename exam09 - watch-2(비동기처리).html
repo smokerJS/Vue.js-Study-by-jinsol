@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <script type="text/javascript" src="lib/underscore.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="area">
+        이름 : <input type="text" v-model="name" placeholder="두자 이상 입력">  <!-- api 예제의 jo 를 검색해보자-->
+        <table>
+            <tr v-for="contact in contactList">
+                <td>{{contact.no}}</td>
+                <td>{{contact.name}}</td>
+                <td>{{contact.tell}}</td>
+                <td>{{contact.address}}</td>
+            </tr>
+        </table>
+        <div v-show="isProcessing === true">조회중</div>
+    </div>
+   
+    <script>
+        // 이번 예제는 underscore.js 를 사용한다.
+        // npm install underscore -g node에서 언더스코어 사용시
+        // var _ = require('underscore');
+
+        // Vue.js 가 끝나면 꼭 underscore.js 도 공부해야한다.
+        // jquery 와 함께 상호 보완하여 사용하는것이라는데 함수형 프로그래밍을 하기 위해서는 필수요소같다.
+        // 밑의 _.debounce는 언더스코어의 함수이며
+        // https://moonspam.github.io/Throttle-and-Debounce/ 에서 throttle 과 debounce 의 개념을 잘 다루고있다.
+
+/*
+        위의 주소에서 debounce 의 구조를 구현하였는데,
+
+        function debounce(fn, delay) {              // 함수와 지연시간을 매개변수로 받는다
+            var timer = null;                       // 새 타이머를 초기화한다.
+            return function () {
+                var context = this, args = arguments; // arguments 객체는 매개변수의 개수에 상관없이 매개변수를 유사배열 객체로 받는다.
+                clearTimeout(timer);                  // 만약 다시한번 동일 함수가 실행되면 기존 타이머를 클리어
+                timer = setTimeout(function () {     // 다시한번 타이머 설정
+                fn.apply(context, args);              // apply 는 매개변수를 유사배열로 전달한다.
+                }, delay);  // 지연시간 뒤에 함수를 실행한다.
+            };
+        }
+        
+        1. debounce 호출
+        2. timer 초기화
+        3. 딜레이가 있는 fn 함수 리턴
+        4. context에 리턴받는 함수 그 자체를 정의
+        5. args 에 fn 함수의 매개변수 수와 상관 없이 모두 받을 수 있는 객체 정의
+        6. 기존 timer 삭제 (존재시)
+        7. 새 timer 설정
+        8. fn 에 context를 넘겨주는 이유는? // apply 의 첫번째 매개변수는 this 를 의미하는데 지금 this가 뭔지 모르겠다.
+        9. 다시한번 debounce 를 호출해야 하는 조건이 된다면 6 에서 기존 타이머를 삭제해서 함수 호출을 멈추고 다시 일정시간 이후 함수를 호출
+
+*/
+    
+
+
+    new Vue({
+        el: '#area',
+        data: {
+            name: '',
+            isProcessing: false,
+            contactList: []
+        },
+        watch: {
+            name: function (val) {
+                if (val.length >= 2) {      // value 의 글자수가 2자 이상일경우 메서드를 실행
+                    this.fetchContacts();
+                } else {
+                    this.contactList = [];  // 그 외에 배열 초기화
+                }
+            }
+        },
+        methods: {
+            fetchContacts: _.debounce(function () {     //_.debounce 특정시간 호출이 되지 않을때 1번만 실행 주로 ajax 검색에 사용 
+                this.contactList = [];  // 배열 초기화
+                this.isProcessing = true;
+                var url = 'http://sample.bmaster.kro.kr/contacts_long/search/'
+                    + this.name;    // 연락처 api
+                console.log(url);
+                var vm = this;
+                fetch(url)                      // ajax 와 같은 것 
+                .then(function (response) {     // 첫번째 then 에서 리턴받은 값을 가져와서 json을 리턴해준다 HTTP Response
+                    return response.json();     // 위에서 리턴받은 json 을 받아온다
+                }).then(function (json) {
+                    vm.contactList = json;      // api 에서 받아온 json 을 배열에 넣어준다
+                    vm.isProcessing = false;    // 조회중 문구를 없앤다
+                }).catch(function (ex) {        // err 캐치 같다. $.ajax 의 error 옵션같음
+                    console.log('parsing failed', ex);
+                    vm.contactList = [];
+                    vm.isProcessing = false;
+                });
+            }, 300)
+        }
+    });
+
+    // name 이 변경될때마다 watch에서 관찰 후 methods 옵션에 있는 fetchContacts 실행
+
+    /*
+        이와 같은 예제는 computed 에서 구현할 수 없다.
+        직접값을 리턴해야 하는 방식인 computed 와 달리 watch 나 event는 비동기 처리가 가능하다.
+        exam06 에서 필터처리한것은 이미 값을 하드코딩하여 넣어주어서 가능했던것
+        이번 예제는 실시간으로 ajax 통신 (fetch 로 구현) 을 하여 값을 넘겨받은것
+    */
+
+
+    </script>
+</body>
+</html>

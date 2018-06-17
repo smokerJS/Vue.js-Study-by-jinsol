@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <title>Document</title>
+    <style>
+        [v-cloak] { display: none;}
+    </style>
+</head>
+<body>
+    <div id="test" v-cloak v-on:contextmenu.prevent="ctxStop">
+        <a href="https://facebook.com" @click="confirmFB">페이스북 이동하기</a><br>
+        <a href="https://facebook.com" @click.prevent="none">a태그지만 절대 이동 안해 이건</a>
+    </div>
+
+    <script>
+        /*
+            기본 이벤트는 개발자가 이벤트를 연결하지 않아도 실행되는 기능을 가지고 있는 것들을 뜻한다.
+            (a 태그나 form, contextMenu(오른쪽 클릭) 등)
+        */
+       new Vue({
+           el:"#test",
+           methods:{
+                ctxStop : function(){
+                    alert("마우스 우클릭은 사용 불가능합니다.");
+                },
+                confirmFB : function(e) {
+                    if (!confirm("페이스북으로 이동할까요?")) {
+                        e.preventDefault();
+                    }
+                },
+                none: function(){}
+           }
+       })
+       /*
+            e.preventDefault() 를 사용하지 않아도 이벤트.prevent 를 통하여 이를 간편하게 막을 수 있다.
+       */
+    </script>
+</body>
+</html>

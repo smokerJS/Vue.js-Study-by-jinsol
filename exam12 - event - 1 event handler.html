@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <title>Document</title>
+    <style>
+        [v-cloak] { display: none;}
+    </style>
+</head>
+<body>
+    <div id="test" v-cloak>
+        숫자 1 : <input type="text" v-model.number="num1"/>
+        <br> 
+        숫자 2 : <input type="text" v-model.number="num2"/> 
+        <button v-on:click="p('이러케에',$event)">더하기</button><span></span><br>
+        <button @click="m">빼기</button><span></span><br>
+        <button @click="num3 = num1 * num2">곱하기</button><span></span><br>
+        값 : <span>{{num3}}</span>
+    </div>
+
+    <script>
+        /*
+            Vue의 이벤트는 v-on 또는 @를 이용하여
+            인라인에 이벤트 처리한다.
+            v-on:click
+            @click
+
+            dom event 전달시 $event 를 매개변수에 넣어준다.
+        */
+       var model = {
+           num1 : 0,
+           num2 : 0,
+           num3 : 0
+       }
+       new Vue({
+           el:"#test",
+           data:model,
+           methods:{
+               p : function(msg,e){
+                   console.log(msg);
+                   console.dir(e)
+                   this.num3 = this.num1 + this.num2;
+               },
+               m : function(){
+                   this.num3 = this.num1 - this.num2;
+               } 
+           }
+       })
+
+    </script>
+</body>
+</html>

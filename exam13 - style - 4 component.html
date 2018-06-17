@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <title>Document</title>
+    <style>
+        [v-cloak] { display: none; }
+        .boxcolor { background-color:orange; }
+        .center { width:200px;
+                  height:100px; 
+                  line-height: 100px;
+                  text-align: center; 
+                  border: 1px solid gray; }
+    </style>
+</head>
+<body>
+    <div id="example">
+            <center-box v-bind:class="boxstyle"></center-box>
+    </div>
+
+    <script>
+    Vue.component('center-box', {
+        template : '<div class="center">중앙에 위치</div>'
+    })
+    var vm = new Vue({
+        el : "#example",
+        data : {
+            boxstyle : { boxcolor : true }
+        }
+    })
+
+    /*
+
+        컴포넌트는 아직 다루지 않았기 때문에 간단한 설정 방법만 이렇게 하는구나 하고 넘어가면 될 것 같다.
+
+        center style 은 컴포넌트의 template 에 설정되어 있고
+        boxcolor style 은 data 에 있는데 이것을 boxStyle 이라는 값으로 가지고 있다.
+        따라서 boxStyle 을 받는 center-box 에서도 사용할 수 있는 것.
+
+    */
+    </script>
+</body>
+</html>

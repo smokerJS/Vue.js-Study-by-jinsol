@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="test">
+        x : <input type="text" v-model="x"/>
+        y : <input type="text" v-model="y"/>
+        더하기 : {{sum}}
+        <br>
+        컴퓨티드 : {{comSum}}
+    </div>
+
+    <script>
+        var model = {
+            x : "0",
+            y : "0",
+            sum : "0"
+        }
+
+        new Vue({
+            el:"#test",
+            data : model,
+            watch : {
+                x : function(v){
+                    console.log("x 변경");
+                    if(isNaN(this.x)) this.sum = "X 값의 숫자를 올바르게 입력해주세요.";
+                    else this.sum = Number(this.x) + Number(this.y);
+                },
+                y : function(v){
+                    console.log("y 변경");
+                    if(isNaN(this.x)) this.sum = "y 값의 숫자를 올바르게 입력해주세요.";
+                    else this.sum = Number(this.x) + Number(this.y);
+                }
+            },
+            computed:{
+                comSum : function(){
+                    return Number(this.x) + Number(this.y);
+                }
+            }
+        })
+        /*
+            watch 옵션에 등록되는 것은 속성의 이름과 해당 속성이 변경 되었을 때 호출할 함수이다.
+            즉 wahtch { x : 에서 x 는 속성을 의미하며 뒤의 function 부분이 x 가 변경될 때 호출되는 함수이다.
+            그런데 위와 같은 코드는 x, y 의 인풋 값이 변경될 때마다 함수가 호출된다는 단점이 있다.
+            이 경우는 computed sum 을 하는게 훨씬 좋을 수 있다.
+
+            그럼에도 watch 를 쓰는 이유는 앞에서 언급한 바와 같이 긴 시간 동안 진행되는 비동기 처리이다.
+            언제 끝날 지 모르므로 끝날 때까지 수시로 지켜봐야 하는 것.
+        */
+
+    </script>
+</body>
+</html>

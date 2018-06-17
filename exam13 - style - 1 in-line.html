@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <title>Document</title>
+    <style>
+        [v-cloak] { display: none;}
+        #test{
+            width: 400px;
+            height: 400px;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <!--
+
+        html 은 대소문자를 구별하지 않기 때문에 - 하이펀으로 두 번째 단어를 시작한다. (케밥 표시법)
+        그렇기때문에 객체 Key 값을 표현하기 위해서는 "background-color" 또는 backgroundColor 를 사용해야 한다.
+
+        또한 태그에 Style 태그에 작성된 순서대로 CSS 클래스의 스타일이 적용되므로
+        같은 클래스라면 제일 마지막에 작성된 css 를 따르게 된다.
+
+    -->
+    <div id="test">
+        #test
+        <div>
+            <button v-bind:style="style1">blue</button>
+            <button v-bind:style="style2">red</button>
+            <button v-bind:style="[style1,style3]">multi</button>
+            <button v-bind:style="style4" @mouseover.stop="overEvent" @mouseout.stop="outEvent">event</button>
+        </div>
+    </div>
+    <script>
+        /*
+            기존 HTML 뿐만 아니라 Vue.js 에서도 인라인 스타일은 사용하지 않는 것을 권장한다.
+            하지만 꼭 써야할 경우도 있으므로 인라인 스타일을 사용하게 될 경우
+            v-bind:style 이런식으로 작성한다.
+        */
+        new Vue({
+            el:"#test",
+            data:{
+                style1 : {backgroundColor:"blue",border:"2px solid red"},
+                style2 : {backgroundColor:"red",border:"2px solid blue"},
+                style3 : {color:"white"},
+                style4 : {color:"black","background-color":"white",transition:".5s"}
+            },
+            methods:{
+                overEvent : function(){
+                    this.style4.backgroundColor = "purple";
+                    this.style4.color = "white";
+
+                },
+                outEvent : function(){
+                    this.style4.backgroundColor = "white";
+                    this.style4.color = "black";
+                }
+
+            }
+        })
+    </script>
+</body>
+</html>
