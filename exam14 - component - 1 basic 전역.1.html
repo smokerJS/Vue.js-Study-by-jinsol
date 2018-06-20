@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <title>Document</title>
+    <style>
+        [v-cloak] { display: none;}
+    </style>
+</head>
+<body>
+    <div id="app">
+        <hello-component></hello-component>
+        <hello-component>내용이 들어갈까</hello-component>
+        <hello-component><span>태그는 들어갈까 안되네</span></hello-component>
+    </div>
+
+    <script>
+        /*
+        
+        compoent
+
+        1. 뛰어난 재사용성
+        2. 테스트가 용이 *컴포넌트 단위로 기능 테스트
+        3. 디버깅이 편함 
+
+        Vue.component(tagname, options)
+        tagename : 컴포넌트를 사용할 태그명
+        options : 컴포넌트에서 렌더링할 template 등을 지정.
+        태그명은 케밥 표기법을 따르는 것이 좋다. (실제 컴포넌트 태그 명은 HTML이므로 케밥으로 표시된다.)
+
+        */
+        Vue.component('hello-component',{   // 컴포넌트명은 모두 소문자에 - 을 포함해야한다.
+            template : '<div>안녕 세계!!</div>'
+        })    
+        Vue.config.devtools = true; // 개발자 도구 F12 누르면 컴포넌트가 보인다(vue 전용)
+        new Vue({
+            el : '#app'
+        })
+        // Vue 인스턴스로 돔 객체를 지정해줘야 적용이 된다.
+
+        /*
+
+        HTML 요소들은 자식 요소로 포함시킬 수 있는 요소들이 정해져 있는 경우가 있고,
+        이 사항을 브라우저가 구문 분석을 수행한다. 따라서 이 경우 Vue 컴포넌트가 때때로 오류를 보이기도 한다.
+        그러므로 select 문의 option 같은 곳에는 is 옵션을 걸어주거나 text/x-template 등을 해주어야 한다.
+        또한 루트 요소는 하나로 만들어 주어야 한다.
+
+        */
+
+
+
+    </script>
+</body>
+</html>

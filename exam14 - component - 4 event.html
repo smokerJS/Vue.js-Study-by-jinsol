@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <title>Document</title>
+    <style>
+        [v-cloak] { display: none;}
+        #template{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="counter-event-example">
+            <p>{{ total }}</p>
+            <button-counter v-on:increment="incrementTotal"></button-counter>   
+            <button-counter v-on:increment="incrementTotal"></button-counter>
+            <!-- 부모가 자식의 이벤트를 감지하려면 꼭 템플릿에 정의해야 한다 -->
+    </div>
+    <!-- v-on:increment      increment 라는 이름으로 통신을 받아 incrementTotal 이벤트 실행 -->
+
+  
+    <script>
+        Vue.component('button-counter', {
+            template: '<button v-on:click="incrementCounter">{{ counter }}</button>',
+            data: function () {
+                return { counter: 0 }
+            },
+            methods: {
+                incrementCounter: function () {
+                    this.counter += 1
+                    this.$emit('increment') // increment 라는 이름으로 부모에게 송신
+                }
+            },
+        })
+
+        new Vue({
+            el: '#counter-event-example',
+            data: {
+                total: 0
+            },
+            methods: {
+                incrementTotal: function () {
+                    this.total += 1
+                }
+            }
+        })
+    </script>
+</body>
+</html>

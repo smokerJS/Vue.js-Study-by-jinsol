@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <title>Document</title>
+    <style>
+        [v-cloak] { display: none;}
+        #template{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <test-component message="안녕하세요!"></test-component>
+        <test-component message="우잉"></test-component>
+        <test-component message="ㅎㅎㅎㅎ"></test-component>
+        <test-component ></test-component>
+
+        <test2-component v-bind:countries="['미국', '영국', '호주']"></test2-component>
+        <test2-component v-bind:countries="['한국', '영국', '호주']"></test2-component>
+        <test2-component ></test2-component>
+
+        <input type="text" v-model="pMsg"/>
+        <test3-component :message="pMsg"></test3-component>
+
+    </div>
+
+
+    <script>
+        /*
+            props 는 부모에서 자식으로 데이터를 내려준다고 생각하면 된다.
+            event 는 자식이 부모한테 이벤트를 올려주는것이다.
+
+        */
+        Vue.component('test-component',{
+            props: {
+                message : {type:String, default:"디폴트 메세지"}
+                },
+            template : '<div v-text="message"></div>'
+        });
+        Vue.component('test2-component',{
+            props: {
+                countries : {type:Array,
+                            default: function(){return ['디폴트']}          //데이터가 배열이라면 함수로 리턴해야 한다.
+                 
+                }
+            },
+            template : '<div v-text="countries[0]"></div>'
+        });
+        Vue.component('test3-component',{
+            props: {
+                message : this.pMsg
+            },
+            template : '<div v-text="message"></div>'
+        });
+        new Vue({
+            el : '#app',
+            data : {pMsg : ""}
+        });
+        
+        /*
+            부모 : test-component
+            data : message 안녕하세요!
+            자식 : <span v-text="message"></span>
+            부모에게서 message 를 받아 출력
+        */
+
+
+    </script>
+</body>
+</html>
